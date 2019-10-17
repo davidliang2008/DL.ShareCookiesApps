@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/global.min.css" asp-append-version="true" />
+    </environment>
+
+    <title>@ViewBag.Title | Web App A</title>
+
+    @RenderSection("css", required: false)
+</head>
+<body>
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <environment include="Development">
+        <script src="~/scripts/global.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/scripts/global.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
