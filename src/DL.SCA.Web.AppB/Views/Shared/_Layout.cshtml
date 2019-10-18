@@ -18,6 +18,27 @@
     @RenderSection("css", required: false)
 </head>
 <body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="home" asp-action="index">
+                    Web App B
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="home" asp-action="index">
+                                Home
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <main class="container">
         @RenderBody()
     </main>
