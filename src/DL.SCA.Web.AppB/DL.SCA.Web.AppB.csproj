@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DL.SCA.Security\DL.SCA.Security.csproj" />
+    <ProjectReference Include="..\DL.SCA.Web.Shared\DL.SCA.Web.Shared.csproj" />
   </ItemGroup>
 
 </Project>

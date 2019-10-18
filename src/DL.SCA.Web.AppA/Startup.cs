@@ -1,7 +1,11 @@
 ﻿using DL.SCA.Security;
+using DL.SCA.Security.Entities;
+using DL.SCA.Web.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,13 +32,36 @@ namespace DL.SCA.Web.AppA
                 )
             );
 
-            services.AddMvc(options =>
+            services.AddIdentity<AppUser, AppRole>(options =>
             {
-                var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<AppIdentityDbContext>()
+            .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = SharedConstants.CookieName;
+                options.Cookie.SameSite = SameSiteMode.Lax;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+                options.LoginPath = SharedConstants.LoginPath;
+                options.SlidingExpiration = true;
             });
+
+            services
+                .AddRouting(options => options.LowercaseUrls = true)
+                .AddMvc(options =>
+                {
+                    var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

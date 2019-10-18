@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DL.SCA.Security.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace DL.SCA.Security
 {
-    public class AppIdentityDbContext : IdentityDbContext
+    public class AppIdentityDbContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public AppIdentityDbContext(DbContextOptions options) : base(options)
         {
@@ -13,8 +13,8 @@ namespace DL.SCA.Security
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<IdentityUser<int>>().ToTable("User");
-            builder.Entity<IdentityRole<int>>().ToTable("Role");
+            builder.Entity<AppUser>().ToTable("User");
+            builder.Entity<AppRole>().ToTable("Role");
 
             builder.Entity<IdentityUserRole<int>>().ToTable("UserRole");
             builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaim");
