@@ -62,5 +62,13 @@ namespace DL.SCA.Web.AppA.Controllers
             ModelState.AddModelError("", "There is something wrong when you login. Please try again later.");
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("index", "home", new { area = "" });
+        }
     }
 }
