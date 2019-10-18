@@ -3,7 +3,6 @@ using DL.SCA.Web.AppB.Models.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using System.Threading.Tasks;
 
 namespace DL.SCA.Web.AppB.Controllers
@@ -12,15 +11,12 @@ namespace DL.SCA.Web.AppB.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly LinkGenerator _linkGenerator;
 
         public AccountController(UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager,
-            LinkGenerator linkGenerator)
+            SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _linkGenerator = linkGenerator;
         }
 
         [AllowAnonymous]
@@ -28,6 +24,7 @@ namespace DL.SCA.Web.AppB.Controllers
         {
             var vm = new LoginViewModel
             {
+                Email = "david.liang@outlook.com",
                 ReturnUrl = returnUrl
             };
             return View(vm);
@@ -37,6 +34,11 @@ namespace DL.SCA.Web.AppB.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return LocalRedirect(model.ReturnUrl);
+            }
+
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
@@ -49,10 +51,7 @@ namespace DL.SCA.Web.AppB.Controllers
                 var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                 if (signInResult.Succeeded)
                 {
-                    return Redirect(Url.IsLocalUrl(model.ReturnUrl)
-                        ? model.ReturnUrl
-                        : _linkGenerator.GetUriByAction("index", "home", new { area = "" },
-                            Request.Scheme, Request.Host));
+                    return LocalRedirect(model.ReturnUrl);
                 }
 
                 ModelState.AddModelError("", "The information you entered does not match our records, please try again.");

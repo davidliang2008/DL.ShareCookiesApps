@@ -2,6 +2,7 @@
 {
     public static class SharedConstants
     {
+        public const string PathToDataProtectionKeys = @"c:\dataProtection\keys";
         public const string CookieName = "SharedCookieApp.SharedCookie";
         public const string ApplicationName = "SharedCookieApp";
 

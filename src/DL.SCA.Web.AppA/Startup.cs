@@ -3,6 +3,7 @@ using DL.SCA.Security.Entities;
 using DL.SCA.Web.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 
 namespace DL.SCA.Web.AppA
 {
@@ -43,14 +45,19 @@ namespace DL.SCA.Web.AppA
             .AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddDefaultTokenProviders();
 
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(SharedConstants.PathToDataProtectionKeys))
+                .SetApplicationName(SharedConstants.ApplicationName);
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.Name = SharedConstants.CookieName;
-                options.Cookie.SameSite = SameSiteMode.Lax;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.Cookie.Path = "/";
+                //options.Cookie.SameSite = SameSiteMode.None;
+                //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 
-                options.LoginPath = SharedConstants.LoginPath;
-                options.SlidingExpiration = true;
+                //options.LoginPath = SharedConstants.LoginPath;
+                //options.SlidingExpiration = true;
             });
 
             services
