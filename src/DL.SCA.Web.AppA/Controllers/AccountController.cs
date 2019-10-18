@@ -42,7 +42,7 @@ namespace DL.SCA.Web.AppA.Controllers
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "The information you entered does not match our records, please try again.");
+                    ModelState.AddModelError("", "The email does not exist.");
                     return View(model);
                 }
 
@@ -54,6 +54,9 @@ namespace DL.SCA.Web.AppA.Controllers
                         : _linkGenerator.GetUriByAction("index", "home", new { area = "" },
                             Request.Scheme, Request.Host));
                 }
+
+                ModelState.AddModelError("", "The information you entered does not match our records, please try again.");
+                return View(model);
             }
 
             ModelState.AddModelError("", "There is something wrong when you login. Please try again later.");

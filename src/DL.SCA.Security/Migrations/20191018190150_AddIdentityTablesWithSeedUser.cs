@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DL.SCA.Security.Migrations
 {
-    public partial class AddIdentityTables : Migration
+    public partial class AddIdentityTablesWithSeedUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -157,6 +157,11 @@ namespace DL.SCA.Security.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { 1, 0, "3204620e-b40e-449c-9baf-e7586b0894cf", "DAVID.LIANG@OUTLOOK.COM", true, "David", "Liang", false, null, "DAVID.LIANG@OUTLOOK.COM", "DAVID.LIANG@OUTLOOK.COM", "AQAAAAEAACcQAAAAECntLdV8Gr1F2VxYJW2PxVkC+aB4WiKAxxiw+aMuxTCuAEceIsdsH/j8T6X0QepmSA==", null, false, "3e7e7629-07a8-483b-b49c-659ddf4f053a", false, "david.liang@outlook.com" });
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",

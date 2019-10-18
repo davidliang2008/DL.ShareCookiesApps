@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DL.SCA.Security.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20191018005941_AddIdentityTables")]
-    partial class AddIdentityTables
+    [Migration("20191018190150_AddIdentityTablesWithSeedUser")]
+    partial class AddIdentityTablesWithSeedUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,6 +123,26 @@ namespace DL.SCA.Security.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3204620e-b40e-449c-9baf-e7586b0894cf",
+                            Email = "DAVID.LIANG@OUTLOOK.COM",
+                            EmailConfirmed = true,
+                            FirstName = "David",
+                            LastName = "Liang",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DAVID.LIANG@OUTLOOK.COM",
+                            NormalizedUserName = "DAVID.LIANG@OUTLOOK.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAECntLdV8Gr1F2VxYJW2PxVkC+aB4WiKAxxiw+aMuxTCuAEceIsdsH/j8T6X0QepmSA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "3e7e7629-07a8-483b-b49c-659ddf4f053a",
+                            TwoFactorEnabled = false,
+                            UserName = "david.liang@outlook.com"
+                        });
                 });
 
             modelBuilder.Entity("DL.SCA.Security.Entities.AppUserClaim", b =>

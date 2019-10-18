@@ -1,6 +1,8 @@
 ﻿using DL.SCA.Security.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace DL.SCA.Security
 {
@@ -15,7 +17,23 @@ namespace DL.SCA.Security
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<AppUser>().ToTable("User");
+            var seedUser = new AppUser
+            {
+                Id = 1,
+                FirstName = "David",
+                LastName = "Liang",
+                UserName = "david.liang@outlook.com",
+                NormalizedUserName = "DAVID.LIANG@OUTLOOK.COM",
+                Email = "DAVID.LIANG@OUTLOOK.COM",
+                NormalizedEmail = "DAVID.LIANG@OUTLOOK.COM",
+                EmailConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D")
+            };
+
+            seedUser.PasswordHash = new PasswordHasher<AppUser>()
+                .HashPassword(seedUser, "c@KNUsA8q9CLdsfA");
+
+            builder.Entity<AppUser>().ToTable("User").HasData(seedUser);
             builder.Entity<AppRole>().ToTable("Role");
 
             builder.Entity<AppUserRole>().ToTable("UserRole");

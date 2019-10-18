@@ -34,8 +34,8 @@ namespace DL.SCA.Web.AppA
 
             services.AddIdentity<AppUser, AppRole>(options =>
             {
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
